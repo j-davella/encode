@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caesar Cipher Notebook</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        textarea, input {
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            font-size: 16px;
+            color: white;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Caesar Cipher Notebook</h1>
+    <p>Enter your notes below, set a shift value, and encode your text using a Caesar Cipher. Notes will be saved even after you close the browser.</p>
+    
+    <label for="shift">Shift Value (e.g., 5):</label>
+    <input type="number" id="shift" value="0" placeholder="Enter shift value (e.g., 5)">
+    
+    <label for="notebook">Write your notes:</label>
+    <textarea id="notebook" placeholder="Start typing your notes here..."></textarea>
+    
+    <button onclick="encodeNotes()">Encode Notes</button>
+    <button onclick="clearNotes()">Clear Notes</button>
+    
+    <h2>Encoded Notes:</h2>
+    <textarea id="encodedNotes" readonly></textarea>
+    
+    <script>
+        // Helper function to encode text using Caesar Cipher
+        function caesarCipher(str, shift) {
+            return str.replace(/[a-zA-Z]/g, (char) => {
+                const base = char <= 'Z' ? 'A'.charCodeAt(0) : 'a'.charCodeAt(0);
+                return String.fromCharCode(((char.charCodeAt(0) - base + shift) % 26 + 26) % 26 + base);
+            });
+        }
+
+        // Load notes and encoded notes from localStorage
+        const notebook = document.getElementById('notebook');
+        const encodedNotes = document.getElementById('encodedNotes');
+        const shiftInput = document.getElementById('shift');
+
+        notebook.value = localStorage.getItem('notes') || '';
+        encodedNotes.value = localStorage.getItem('encodedNotes') || '';
+        shiftInput.value = localStorage.getItem('shift') || 0;
+
+        // Save notes to localStorage whenever text changes
+        notebook.addEventListener('input', () => {
+            localStorage.setItem('notes', notebook.value);
+        });
+
+        shiftInput.addEventListener('input', () => {
+            localStorage.setItem('shift', shiftInput.value);
+        });
+
+        // Encode notes using Caesar Cipher
+        function encodeNotes() {
+            const shift = parseInt(shiftInput.value, 10) || 0;
+            const encoded = caesarCipher(notebook.value, shift);
+            encodedNotes.value = encoded;
+            localStorage.setItem('encodedNotes', encoded);
+        }
+
+        // Clear notes and encoded notes
+        function clearNotes() {
+            if (confirm("Are you sure you want to clear all your notes? This action cannot be undone.")) {
+                notebook.value = '';
+                encodedNotes.value = '';
+                shiftInput.value = 0;
+                localStorage.removeItem('notes');
+                localStorage.removeItem('encodedNotes');
+                localStorage.removeItem('shift');
+            }
+        }
+    </script>
+</body>
+</html>
