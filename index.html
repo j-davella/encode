@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caesar Cipher Notebook</title>
+    <title>It Is What It Is</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -36,16 +36,16 @@
 </head>
 <body>
     <h1>Caesar Cipher Notebook</h1>
-    <p>Enter your notes below, set a shift value, and encode your text using a Caesar Cipher. Notes will be saved even after you close the browser.</p>
+    <p>Enter your age:</p>
     
-    <label for="shift">Shift Value (e.g., 5):</label>
+    <label for="shift">AGE (e.g., 5):</label>
     <input type="number" id="shift" value="0" placeholder="Enter shift value (e.g., 5)">
     
     <label for="notebook">Write your notes:</label>
     <textarea id="notebook" placeholder="Start typing your notes here..."></textarea>
     
     <button onclick="encodeNotes()">Encode Notes</button>
-    <button onclick="clearNotes()">Clear Notes</button>
+    <button onclick="clearNotes()">Clear</button>
     
     <h2>Encoded Notes:</h2>
     <textarea id="encodedNotes" readonly></textarea>
